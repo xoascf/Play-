@@ -49,6 +49,7 @@ jobs:
         PLAYJS_BUILD_DIR=$GITHUB_WORKSPACE/build_cmake/build/wasm-ninja/Source/ui_js/Release/
         cd js/play_browser
         cp $PLAYJS_BUILD_DIR/Play.js ./src/
+        cp $PLAYJS_BUILD_DIR/Play.wasm ./src/
         cp $PLAYJS_BUILD_DIR/Play.wasm ./public/
         cp $PLAYJS_BUILD_DIR/Play.js ./public/
         export REACT_APP_VERSION=$(git describe)
