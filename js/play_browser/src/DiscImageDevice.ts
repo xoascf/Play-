@@ -18,6 +18,9 @@ export default class DiscDevice {
         subsection.arrayBuffer().then((value: ArrayBuffer) => {
             this.module.HEAPU8.set(new Uint8Array(value), dstPtr);
             this.doneFlag = true;
+        }).catch((err) => {
+            console.error("Error reading disc image subsection:", err);
+            this.doneFlag = true;
         });
     }
 
