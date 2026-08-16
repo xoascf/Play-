@@ -26,13 +26,17 @@ EM_BOOL keyboardCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent,
 	{
 		return true;
 	}
+	if(!g_inputProvider)
+	{
+		return false;
+	}
 	switch(eventType)
 	{
 	case EMSCRIPTEN_EVENT_KEYDOWN:
-		g_inputProvider->OnKeyDown(keyEvent->code);
+		g_inputProvider->OnKeyDown(keyEvent->code, keyEvent->key);
 		break;
 	case EMSCRIPTEN_EVENT_KEYUP:
-		g_inputProvider->OnKeyUp(keyEvent->code);
+		g_inputProvider->OnKeyUp(keyEvent->code, keyEvent->key);
 		break;
 	}
 	return true;
@@ -112,10 +116,10 @@ extern "C" void initVm()
 
 	EMSCRIPTEN_RESULT result = EMSCRIPTEN_RESULT_SUCCESS;
 
-	result = emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, nullptr, false, &keyboardCallback);
+	result = emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, nullptr, true, &keyboardCallback);
 	assert(result == EMSCRIPTEN_RESULT_SUCCESS);
 
-	result = emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, nullptr, false, &keyboardCallback);
+	result = emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, nullptr, true, &keyboardCallback);
 	assert(result == EMSCRIPTEN_RESULT_SUCCESS);
 }
 

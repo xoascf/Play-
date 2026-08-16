@@ -575,7 +575,7 @@ uint32 CInputBindingManager::CSimulatedAxisBinding::GetValue() const
 	{
 		value = 0x7F;
 	}
-	if(m_key1State)
+	else if(m_key1State)
 	{
 		value = 0;
 	}

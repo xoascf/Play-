@@ -11,6 +11,6 @@ public:
 
 	static BINDINGTARGET MakeBindingTarget(const EM_UTF8* code);
 
-	void OnKeyDown(const EM_UTF8*);
-	void OnKeyUp(const EM_UTF8*);
+	void OnKeyDown(const EM_UTF8* code, const EM_UTF8* key = nullptr);
+	void OnKeyUp(const EM_UTF8* code, const EM_UTF8* key = nullptr);
 };
