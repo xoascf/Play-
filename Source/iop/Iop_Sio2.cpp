@@ -258,7 +258,6 @@ void CSio2::ProcessCommand()
 	if(m_inputBuffer.size() >= srcSize)
 	{
 		unsigned int portId = currentReg & 0x03;
-		uint32 deviceId = m_ctrl2[portId];
 		size_t outputOffset = m_outputBuffer.size();
 
 		m_stat6C = 0;
@@ -267,16 +266,19 @@ void CSio2::ProcessCommand()
 			m_outputBuffer.push_back(0xFF);
 		}
 
-		if(deviceId == 0x00030064)
+		uint8 deviceIdByte = m_inputBuffer.empty() ? 0x00 : m_inputBuffer[0];
+
+		if(deviceIdByte == 0x21)
 		{
 			ProcessMultitap(portId, outputOffset, dstSize, srcSize);
 		}
-		else if(deviceId == 0x5FFFF)
+		else if(deviceIdByte == 0x81)
 		{
 			ProcessMemoryCard(portId, outputOffset, dstSize, srcSize);
 		}
 		else
 		{
+			// 0x01 is the standard PAD ID, but fallback to controller for unknown devices
 			ProcessController(portId, outputOffset, dstSize, srcSize);
 		}
 
