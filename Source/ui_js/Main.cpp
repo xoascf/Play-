@@ -112,10 +112,10 @@ extern "C" void initVm()
 
 	EMSCRIPTEN_RESULT result = EMSCRIPTEN_RESULT_SUCCESS;
 
-	result = emscripten_set_keydown_callback("#outputCanvas", nullptr, false, &keyboardCallback);
+	result = emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, nullptr, false, &keyboardCallback);
 	assert(result == EMSCRIPTEN_RESULT_SUCCESS);
 
-	result = emscripten_set_keyup_callback("#outputCanvas", nullptr, false, &keyboardCallback);
+	result = emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, nullptr, false, &keyboardCallback);
 	assert(result == EMSCRIPTEN_RESULT_SUCCESS);
 }
 

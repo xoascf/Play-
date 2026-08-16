@@ -51,7 +51,7 @@ struct BINDINGTARGET
 		return (providerId == target.providerId) &&
 		       (keyId == target.keyId) &&
 		       (keyType == target.keyType) &&
-		       (memcmp(deviceId.data(), target.deviceId.data(), deviceId.size()) == 0);
+		       (deviceId == target.deviceId);
 	}
 
 	bool operator==(const BINDINGTARGET& target) const

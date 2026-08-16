@@ -27,6 +27,8 @@ function App() {
     if(event.target && event.target.files && event.target.files.length !== 0) {
       let file = event.target.files[0]; 
       dispatch(bootFile(file));
+      event.target.blur();
+      document.getElementById('outputCanvas')?.focus();
     }
   }
   console.log(state.value);
