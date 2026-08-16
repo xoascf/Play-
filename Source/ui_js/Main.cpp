@@ -5,6 +5,7 @@
 #include "sound/SH_OpenAL/SH_OpenALProxy.h"
 #include "input/PH_GenericInput.h"
 #include "InputProviderEmscripten.h"
+#include <emscripten/key_codes.h>
 #include "ui_shared/StatsManager.h"
 #include "DefaultAppConfig.h"
 
@@ -33,10 +34,10 @@ EM_BOOL keyboardCallback(int eventType, const EmscriptenKeyboardEvent* keyEvent,
 	switch(eventType)
 	{
 	case EMSCRIPTEN_EVENT_KEYDOWN:
-		g_inputProvider->OnKeyDown(keyEvent->code, keyEvent->key);
+		g_inputProvider->OnKeyDown(keyEvent->code);
 		break;
 	case EMSCRIPTEN_EVENT_KEYUP:
-		g_inputProvider->OnKeyUp(keyEvent->code, keyEvent->key);
+		g_inputProvider->OnKeyUp(keyEvent->code);
 		break;
 	}
 	return true;
@@ -75,36 +76,36 @@ extern "C" void initVm()
 		g_inputProvider = std::make_shared<CInputProviderEmscripten>();
 		bindingManager.RegisterInputProvider(g_inputProvider);
 
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::START, CInputProviderEmscripten::MakeBindingTarget("Enter"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::SELECT, CInputProviderEmscripten::MakeBindingTarget("Backspace"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::DPAD_LEFT, CInputProviderEmscripten::MakeBindingTarget("ArrowLeft"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::DPAD_RIGHT, CInputProviderEmscripten::MakeBindingTarget("ArrowRight"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::DPAD_UP, CInputProviderEmscripten::MakeBindingTarget("ArrowUp"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::DPAD_DOWN, CInputProviderEmscripten::MakeBindingTarget("ArrowDown"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::SQUARE, CInputProviderEmscripten::MakeBindingTarget("KeyA"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::CROSS, CInputProviderEmscripten::MakeBindingTarget("KeyZ"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::TRIANGLE, CInputProviderEmscripten::MakeBindingTarget("KeyS"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::CIRCLE, CInputProviderEmscripten::MakeBindingTarget("KeyX"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::L1, CInputProviderEmscripten::MakeBindingTarget("Key1"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::L2, CInputProviderEmscripten::MakeBindingTarget("Key2"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::L3, CInputProviderEmscripten::MakeBindingTarget("Key3"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::R1, CInputProviderEmscripten::MakeBindingTarget("Key8"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::R2, CInputProviderEmscripten::MakeBindingTarget("Key9"));
-		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::R3, CInputProviderEmscripten::MakeBindingTarget("Key0"));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::START, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_ENTER));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::SELECT, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_BACKSPACE));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::DPAD_LEFT, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_ARROW_LEFT));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::DPAD_RIGHT, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_ARROW_RIGHT));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::DPAD_UP, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_ARROW_UP));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::DPAD_DOWN, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_ARROW_DOWN));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::SQUARE, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_A));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::CROSS, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_Z));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::TRIANGLE, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_S));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::CIRCLE, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_X));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::L1, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_1));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::L2, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_2));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::L3, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_3));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::R1, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_8));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::R2, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_9));
+		bindingManager.SetSimpleBinding(0, PS2::CControllerInfo::R3, CInputProviderEmscripten::MakeBindingTarget(DOM_PK_0));
 
 		bindingManager.SetSimulatedAxisBinding(0, PS2::CControllerInfo::ANALOG_LEFT_X,
-		                                       CInputProviderEmscripten::MakeBindingTarget("KeyF"),
-		                                       CInputProviderEmscripten::MakeBindingTarget("KeyH"));
+		                                       CInputProviderEmscripten::MakeBindingTarget(DOM_PK_F),
+		                                       CInputProviderEmscripten::MakeBindingTarget(DOM_PK_H));
 		bindingManager.SetSimulatedAxisBinding(0, PS2::CControllerInfo::ANALOG_LEFT_Y,
-		                                       CInputProviderEmscripten::MakeBindingTarget("KeyT"),
-		                                       CInputProviderEmscripten::MakeBindingTarget("KeyG"));
+		                                       CInputProviderEmscripten::MakeBindingTarget(DOM_PK_T),
+		                                       CInputProviderEmscripten::MakeBindingTarget(DOM_PK_G));
 
 		bindingManager.SetSimulatedAxisBinding(0, PS2::CControllerInfo::ANALOG_RIGHT_X,
-		                                       CInputProviderEmscripten::MakeBindingTarget("KeyJ"),
-		                                       CInputProviderEmscripten::MakeBindingTarget("KeyL"));
+		                                       CInputProviderEmscripten::MakeBindingTarget(DOM_PK_J),
+		                                       CInputProviderEmscripten::MakeBindingTarget(DOM_PK_L));
 		bindingManager.SetSimulatedAxisBinding(0, PS2::CControllerInfo::ANALOG_RIGHT_Y,
-		                                       CInputProviderEmscripten::MakeBindingTarget("KeyI"),
-		                                       CInputProviderEmscripten::MakeBindingTarget("KeyK"));
+		                                       CInputProviderEmscripten::MakeBindingTarget(DOM_PK_I),
+		                                       CInputProviderEmscripten::MakeBindingTarget(DOM_PK_K));
 	}
 
 	{

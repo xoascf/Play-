@@ -2,6 +2,7 @@
 
 #include "input/InputProvider.h"
 #include <emscripten/html5.h>
+#include <emscripten/key_codes.h>
 
 class CInputProviderEmscripten : public CInputProvider
 {
@@ -9,8 +10,8 @@ public:
 	uint32 GetId() const override;
 	std::string GetTargetDescription(const BINDINGTARGET&) const override;
 
-	static BINDINGTARGET MakeBindingTarget(const EM_UTF8* code);
+	static BINDINGTARGET MakeBindingTarget(uint32 domPkCode);
 
-	void OnKeyDown(const EM_UTF8* code, const EM_UTF8* key = nullptr);
-	void OnKeyUp(const EM_UTF8* code, const EM_UTF8* key = nullptr);
+	void OnKeyDown(const EM_UTF8* code);
+	void OnKeyUp(const EM_UTF8* code);
 };
