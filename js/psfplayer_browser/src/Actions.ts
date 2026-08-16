@@ -55,25 +55,11 @@ export const init = createAsyncThunk<void>('init',
 
 export const loadArchive = createAsyncThunk<string[] | undefined, File>('loadArchive',
     async (file : File, thunkAPI) => {
-        let url = URL.createObjectURL(file);
-        console.log(`loading ${url}...`);
         await stopPsf();
-        let blob = await fetch(url).then(response => {
-            if(!response.ok) {
-                return null;
-            } else {
-                return response.blob();
-            }
-        });
-        if(blob === null) {
-            thunkAPI.rejectWithValue(null);
-            return;
-        }
-        let data = new Uint8Array(await blob.arrayBuffer());
+        let data = new Uint8Array(await file.arrayBuffer());
         let stream = PsfPlayerModule.FS.open(archiveFilePath, "w+");
         PsfPlayerModule.FS.write(stream, data, 0, data.length, 0);
         PsfPlayerModule.FS.close(stream);
-        URL.revokeObjectURL(url);
         let fileList = getPsfArchiveFileList(archiveFilePath);
         fileList = fileList.filter((path) => {
             let fixedPath = path.toLowerCase();
