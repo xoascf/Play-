@@ -199,11 +199,11 @@ void CSio2::WriteRegister(uint32 address, uint32 value)
 		}
 		break;
 		case REG_CTRL:
-			if(value == 0x0C)
+			if(value & 0x0C)
 			{
 				m_currentRegIndex = 0;
 			}
-			if(value == 0x01)
+			if(value & 0x01)
 			{
 				//Ok, done transferring, generate interrupt.
 				m_intc.AssertLine(CIntc::LINE_SIO2);
