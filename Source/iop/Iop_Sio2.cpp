@@ -163,6 +163,9 @@ uint32 CSio2::ReadRegister(uint32 address)
 	case REG_STAT6C:
 		value = m_stat6C;
 		break;
+	case REG_STAT70:
+		value = 0x0F;
+		break;
 	}
 #ifdef _DEBUG
 	DisassembleRead(address, value);

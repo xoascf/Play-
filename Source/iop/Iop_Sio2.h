@@ -58,6 +58,7 @@ namespace Iop
 
 			REG_CTRL = 0x1F808268,
 			REG_STAT6C = 0x1F80826C,
+			REG_STAT70 = 0x1F808270,
 		};
 
 		enum
