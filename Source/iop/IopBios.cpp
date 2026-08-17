@@ -280,6 +280,7 @@ void CIopBios::Reset(uint32 ramSize, const Iop::SifManPtr& sifMan)
 	m_hleModules.insert(std::make_pair("rom0:PADMAN", m_padman));
 	m_hleModules.insert(std::make_pair("rom0:XSIO2MAN", m_padman));
 	m_hleModules.insert(std::make_pair("rom0:XPADMAN", m_padman));
+	m_hleModules.insert(std::make_pair("rom0:MTAPMAN", m_mtapman));
 	m_hleModules.insert(std::make_pair("rom0:XMTAPMAN", m_mtapman));
 	m_hleModules.insert(std::make_pair("rom0:MCMAN", m_mcserv));
 	m_hleModules.insert(std::make_pair("rom0:MCMANO", m_mcserv));

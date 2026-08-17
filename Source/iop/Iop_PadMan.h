@@ -200,6 +200,8 @@ namespace Iop
 		void SetActuatorAlign(uint32*, uint32, uint32*, uint32, uint8*);
 		void Init(uint32*, uint32, uint32*, uint32, uint8*);
 		void GetModuleVersion(uint32*, uint32, uint32*, uint32, uint8*);
+		void GetPortMax(uint32*, uint32, uint32*, uint32, uint8*);
+		void GetSlotMax(uint32*, uint32, uint32*, uint32, uint8*);
 		void ExecutePadDataFunction(const PadDataFunction&, void*, size_t);
 
 		static PAD_DATA_TYPE GetDataType(uint8*);

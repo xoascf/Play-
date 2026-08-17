@@ -56,6 +56,9 @@ bool CMtapMan::Invoke902(uint32 method, uint32* args, uint32 argsSize, uint32* r
 {
 	switch(method)
 	{
+	case 1:
+		ret[1] = PortClose(args[0]);
+		break;
 	default:
 		CLog::GetInstance().Warn(LOG_NAME, "Unknown method invoked (0x%08X, 0x%08X).\r\n", 0x902, method);
 		break;
@@ -67,6 +70,9 @@ bool CMtapMan::Invoke903(uint32 method, uint32* args, uint32 argsSize, uint32* r
 {
 	switch(method)
 	{
+	case 1:
+		ret[1] = GetConnection(args[0]);
+		break;
 	default:
 		CLog::GetInstance().Warn(LOG_NAME, "Unknown method invoked (0x%08X, 0x%08X).\r\n", 0x903, method);
 		break;
@@ -77,5 +83,17 @@ bool CMtapMan::Invoke903(uint32 method, uint32* args, uint32 argsSize, uint32* r
 uint32 CMtapMan::PortOpen(uint32 port)
 {
 	CLog::GetInstance().Warn(LOG_NAME, "PortOpen(port = %d);\r\n", port);
+	return 1;
+}
+
+uint32 CMtapMan::PortClose(uint32 port)
+{
+	CLog::GetInstance().Warn(LOG_NAME, "PortClose(port = %d);\r\n", port);
+	return 1;
+}
+
+uint32 CMtapMan::GetConnection(uint32 port)
+{
+	CLog::GetInstance().Warn(LOG_NAME, "GetConnection(port = %d);\r\n", port);
 	return 0;
 }

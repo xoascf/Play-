@@ -32,6 +32,8 @@ namespace Iop
 		bool Invoke903(uint32, uint32*, uint32, uint32*, uint32, uint8*);
 
 		uint32 PortOpen(uint32);
+		uint32 PortClose(uint32);
+		uint32 GetConnection(uint32);
 
 		CSifModuleAdapter m_module901;
 		CSifModuleAdapter m_module902;

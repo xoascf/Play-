@@ -53,14 +53,25 @@ bool CPadMan::Invoke(uint32 method, uint32* args, uint32 argsSize, uint32* ret, 
 	case 0x80000100:
 		Open(args, argsSize, ret, retSize, ram);
 		break;
+	case 0x00000006:
 	case 0x80000105:
 		SetMainMode(args, argsSize, ret, retSize, ram);
 		break;
+	case 0x0000000E:
 	case 0x8000010D:
 		Close(args, argsSize, ret, retSize, ram);
 		break;
 	case 0x00000008:
+	case 0x80000107:
 		SetActuatorAlign(args, argsSize, ret, retSize, ram);
+		break;
+	case 0x0000000C:
+	case 0x8000010B:
+		GetPortMax(args, argsSize, ret, retSize, ram);
+		break;
+	case 0x0000000D:
+	case 0x8000010C:
+		GetSlotMax(args, argsSize, ret, retSize, ram);
 		break;
 	case 0x00000010:
 		Init(args, argsSize, ret, retSize, ram);
@@ -205,6 +216,26 @@ void CPadMan::GetModuleVersion(uint32* args, uint32 argsSize, uint32* ret, uint3
 	CLog::GetInstance().Print(LOG_NAME, "GetModuleVersion();\r\n");
 
 	ret[3] = 0x00000400;
+}
+
+void CPadMan::GetPortMax(uint32* args, uint32 argsSize, uint32* ret, uint32 retSize, uint8* ram)
+{
+	assert(retSize >= 0x10);
+
+	CLog::GetInstance().Print(LOG_NAME, "GetPortMax();\r\n");
+
+	ret[3] = 2;
+}
+
+void CPadMan::GetSlotMax(uint32* args, uint32 argsSize, uint32* ret, uint32 retSize, uint8* ram)
+{
+	assert(retSize >= 0x10);
+
+	uint32 port = args[1];
+
+	CLog::GetInstance().Print(LOG_NAME, "GetSlotMax(port = %d);\r\n", port);
+
+	ret[3] = 1;
 }
 
 void CPadMan::ExecutePadDataFunction(const PadDataFunction& func, void* pBase, size_t nOffset)
