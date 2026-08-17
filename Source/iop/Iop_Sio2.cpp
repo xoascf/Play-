@@ -157,8 +157,15 @@ uint32 CSio2::ReadRegister(uint32 address)
 	switch(address)
 	{
 	case REG_DATA_IN:
-		value = m_outputBuffer.front();
-		m_outputBuffer.pop_front();
+		if(!m_outputBuffer.empty())
+		{
+			value = m_outputBuffer.front();
+			m_outputBuffer.pop_front();
+		}
+		else
+		{
+			value = 0xFF;
+		}
 		break;
 	case REG_STAT6C:
 		value = m_stat6C;
@@ -205,6 +212,9 @@ void CSio2::WriteRegister(uint32 address, uint32 value)
 			if(value & 0x0C)
 			{
 				m_currentRegIndex = 0;
+				m_inputBuffer.clear();
+				m_outputBuffer.clear();
+				m_stat6C = 0;
 			}
 			if(value & 0x01)
 			{
@@ -263,7 +273,6 @@ void CSio2::ProcessCommand()
 		unsigned int portId = currentReg & 0x03;
 		size_t outputOffset = m_outputBuffer.size();
 
-		m_stat6C = 0;
 		for(unsigned int i = 0; i < dstSize; i++)
 		{
 			m_outputBuffer.push_back(0xFF);
@@ -298,6 +307,17 @@ void CSio2::ProcessController(unsigned int portId, size_t outputOffset, uint32 d
 	{
 		assert(dstSize >= 3);
 		assert(srcSize >= 3);
+
+		if(m_stat6C & 0x100)
+		{
+			m_stat6C &= ~0x100;
+			m_stat6C |= 0x200;
+		}
+		else
+		{
+			m_stat6C |= 0x100;
+		}
+		m_stat6C |= 0x1000;
 
 		unsigned int padId = portId & 0x01;
 		auto& padState = m_padState[padId];
@@ -478,7 +498,16 @@ void CSio2::ProcessMultitap(unsigned int portId, size_t outputOffset, uint32 dst
 	//Mark command as error/invalid to prevent MTAPMAN from reporting that there's a multitap in that slot.
 	//Time Crisis 3 refuses to check for memory card if a multitap is connected in slot 0.
 	//We don't properly support multitap at the moment, so, no point in giving the impression we have one.
-	m_stat6C = 0x10000;
+	if(m_stat6C & 0x100)
+	{
+		m_stat6C &= ~0x100;
+		m_stat6C |= 0x200;
+	}
+	else
+	{
+		m_stat6C |= 0x100;
+	}
+	m_stat6C |= 0x1000 | 0x1D000;
 	uint8 cmd = m_inputBuffer[1];
 	switch(cmd)
 	{
